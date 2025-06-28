@@ -4,37 +4,36 @@ import { Card, CardContent, CardDescription, CardHeader, CardTitle } from '@/com
 import { Input } from '@/components/ui/input';
 import { Label } from '@/components/ui/label';
 
-export default function LoginPage() {
+export default function RegisterPage() {
   return (
     <div className="flex items-center justify-center min-h-screen bg-background">
       <Card className="mx-auto max-w-sm w-full">
         <CardHeader>
           <CardTitle className="text-3xl font-bold text-primary">EduSpace</CardTitle>
-          <CardDescription>Enter your email below to login to your account</CardDescription>
+          <CardDescription>Create your account to start learning</CardDescription>
         </CardHeader>
         <CardContent>
           <div className="grid gap-4">
+             <div className="grid gap-2">
+              <Label htmlFor="full-name">Full Name</Label>
+              <Input id="full-name" placeholder="John Doe" required />
+            </div>
             <div className="grid gap-2">
               <Label htmlFor="email">Email</Label>
               <Input id="email" type="email" placeholder="m@example.com" required />
             </div>
             <div className="grid gap-2">
-              <div className="flex items-center">
                 <Label htmlFor="password">Password</Label>
-                <Link href="#" className="ml-auto inline-block text-sm text-primary hover:underline">
-                  Forgot your password?
-                </Link>
-              </div>
               <Input id="password" type="password" required />
             </div>
             <Button type="submit" className="w-full" asChild>
-              <Link href="/dashboard">Login</Link>
+              <Link href="/dashboard">Create Account</Link>
             </Button>
           </div>
           <div className="mt-4 text-center text-sm">
-            Don&apos;t have an account?{' '}
-            <Link href="/register" className="underline text-primary">
-              Sign up
+            Already have an account?{' '}
+            <Link href="/" className="underline text-primary">
+              Login
             </Link>
           </div>
         </CardContent>
