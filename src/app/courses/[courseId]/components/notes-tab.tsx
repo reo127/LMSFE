@@ -5,7 +5,7 @@ import { summarizeNotes } from "@/ai/flows/summarize-notes";
 import { Button } from "@/components/ui/button";
 import { Card, CardContent, CardDescription, CardHeader, CardTitle } from "@/components/ui/card";
 import { Textarea } from "@/components/ui/textarea";
-import { Wand2 } from "lucide-react";
+import { Wand2, Bold, Italic, Underline } from "lucide-react";
 import { useToast } from "@/hooks/use-toast";
 import { Skeleton } from "@/components/ui/skeleton";
 
@@ -50,13 +50,30 @@ export default function NotesTab() {
         <p className="text-muted-foreground mb-4">
           Jot down your thoughts and key takeaways. Use the AI assistant to summarize them.
         </p>
-        <Textarea
-          placeholder="Start writing your notes here..."
-          rows={8}
-          value={notes}
-          onChange={(e) => setNotes(e.target.value)}
-          className="bg-background"
-        />
+        
+        <div className="rounded-md border border-input">
+            <div className="p-2 border-b">
+                <div className="flex items-center gap-1">
+                    <Button variant="ghost" size="icon" className="h-8 w-8">
+                        <Bold className="h-4 w-4" />
+                    </Button>
+                    <Button variant="ghost" size="icon" className="h-8 w-8">
+                        <Italic className="h-4 w-4" />
+                    </Button>
+                    <Button variant="ghost" size="icon" className="h-8 w-8">
+                        <Underline className="h-4 w-4" />
+                    </Button>
+                </div>
+            </div>
+            <Textarea
+              placeholder="Start writing your notes here..."
+              rows={8}
+              value={notes}
+              onChange={(e) => setNotes(e.target.value)}
+              className="bg-background border-0 rounded-t-none focus-visible:ring-0 focus-visible:ring-offset-0"
+            />
+        </div>
+
         <Button onClick={handleSummarize} disabled={isLoading} className="mt-4">
           <Wand2 className="w-4 h-4 mr-2" />
           {isLoading ? "Summarizing..." : "Summarize with AI"}

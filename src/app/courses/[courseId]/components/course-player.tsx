@@ -6,20 +6,21 @@ import { Accordion, AccordionContent, AccordionItem, AccordionTrigger } from "@/
 import { Button } from "@/components/ui/button";
 import { Card, CardContent } from "@/components/ui/card";
 import { Tabs, TabsContent, TabsList, TabsTrigger } from "@/components/ui/tabs";
-import { Award, CheckCircle2, Circle, Download, FileText, HelpCircle, MessageSquare, NotebookText } from "lucide-react";
+import { Award, CheckCircle2, Circle, Download, FileText, HelpCircle, MessageSquare, NotebookText, ClipboardCheck } from "lucide-react";
 import NotesTab from './notes-tab';
 import {
   AlertDialog,
   AlertDialogAction,
   AlertDialogCancel,
   AlertDialogContent,
-  AlertDialogDescription,
   AlertDialogFooter,
   AlertDialogHeader,
   AlertDialogTitle,
-  AlertDialogTrigger,
 } from "@/components/ui/alert-dialog";
 import CertificateView from './certificate-view';
+import DoubtsTab from './doubts-tab';
+import FeedbackTab from './feedback-tab';
+import AssignmentTab from './assignment-tab';
 
 export default function CoursePlayer({ course }: { course: Course }) {
   const [activeLesson, setActiveLesson] = useState<Lesson | null>(course.modules[0].lessons[0]);
@@ -38,11 +39,12 @@ export default function CoursePlayer({ course }: { course: Course }) {
 
           {/* Tabbed Content */}
           <Tabs defaultValue="overview" className="mt-6">
-            <TabsList className="grid w-full grid-cols-2 sm:grid-cols-5">
+            <TabsList className="grid w-full grid-cols-3 sm:grid-cols-6">
               <TabsTrigger value="overview">Overview</TabsTrigger>
               <TabsTrigger value="resources"><FileText className="w-4 h-4 mr-1.5 hidden sm:inline-block" />Resources</TabsTrigger>
               <TabsTrigger value="notes"><NotebookText className="w-4 h-4 mr-1.5 hidden sm:inline-block" />Notes</TabsTrigger>
               <TabsTrigger value="doubts"><HelpCircle className="w-4 h-4 mr-1.5 hidden sm:inline-block" />Doubts</TabsTrigger>
+              <TabsTrigger value="assignments"><ClipboardCheck className="w-4 h-4 mr-1.5 hidden sm:inline-block" />Assignments</TabsTrigger>
               <TabsTrigger value="feedback"><MessageSquare className="w-4 h-4 mr-1.5 hidden sm:inline-block" />Feedback</TabsTrigger>
             </TabsList>
             <Card className="mt-2">
@@ -68,12 +70,13 @@ export default function CoursePlayer({ course }: { course: Course }) {
                   <NotesTab />
                 </TabsContent>
                 <TabsContent value="doubts">
-                  <h3 className="text-xl font-semibold mb-2">Have a question?</h3>
-                  <p className="text-muted-foreground">This feature is coming soon. You'll be able to ask questions and get help from instructors and peers.</p>
+                  <DoubtsTab />
+                </TabsContent>
+                <TabsContent value="assignments">
+                  <AssignmentTab assignments={course.assignments} />
                 </TabsContent>
                 <TabsContent value="feedback">
-                  <h3 className="text-xl font-semibold mb-2">Course Feedback</h3>
-                  <p className="text-muted-foreground">We'd love to hear your thoughts on this course. A feedback form will be available here soon.</p>
+                  <FeedbackTab />
                 </TabsContent>
               </CardContent>
             </Card>

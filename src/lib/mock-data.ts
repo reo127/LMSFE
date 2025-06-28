@@ -10,6 +10,13 @@ export interface Module {
   lessons: Lesson[];
 }
 
+export interface Assignment {
+  id: string;
+  title: string;
+  description: string;
+  dueDate: string;
+}
+
 export interface Course {
   id: string;
   title: string;
@@ -20,6 +27,7 @@ export interface Course {
   imageHint: string;
   modules: Module[];
   resources: { name: string; url: string }[];
+  assignments: Assignment[];
 }
 
 export const courses: Course[] = [
@@ -65,6 +73,20 @@ export const courses: Course[] = [
       { name: 'Project Source Code (ZIP)', url: '#' },
       { name: 'External Reading List', url: '#' },
     ],
+    assignments: [
+      {
+        id: 'assignment-1',
+        title: 'Build a Personal Blog',
+        description: 'Create a personal blog using Next.js App Router. It should have at least 3 blog posts and a simple, clean design.',
+        dueDate: '2 weeks from start',
+      },
+      {
+        id: 'assignment-2',
+        title: 'Deploy to Vercel',
+        description: 'Deploy your personal blog project to Vercel and submit the live URL.',
+        dueDate: '3 weeks from start',
+      },
+    ],
   },
   {
     id: 'react-deep-dive',
@@ -96,6 +118,14 @@ export const courses: Course[] = [
     resources: [
       { name: 'Official React Docs', url: '#' },
       { name: 'Sample Code Snippets', url: '#' },
+    ],
+    assignments: [
+      {
+        id: 'assignment-1',
+        title: 'Create a Custom Hook',
+        description: 'Build a custom hook for fetching and caching data. Demonstrate its use in a simple component.',
+        dueDate: '1 week from start',
+      },
     ],
   },
 ];
