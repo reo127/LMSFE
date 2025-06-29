@@ -37,10 +37,51 @@ export default function CoursesPage() {
                 <p className="text-muted-foreground mt-2">Find the perfect course to boost your skills.</p>
             </div>
 
-            <div className="grid grid-cols-1 md:grid-cols-4 gap-6 items-end p-4 border rounded-lg bg-card">
-                <div className="md:col-span-4">
-                    <Label htmlFor="search">Search Courses</Label>
-                     <div className="relative">
+            <div className="grid grid-cols-1 lg:grid-cols-4 gap-8">
+                <aside className="lg:col-span-1">
+                    <Card>
+                        <CardHeader>
+                            <CardTitle>Filters</CardTitle>
+                        </CardHeader>
+                        <CardContent className="space-y-4">
+                            <div>
+                                <Label>Category</Label>
+                                <Select value={category} onValueChange={setCategory}>
+                                    <SelectTrigger><SelectValue placeholder="All Categories" /></SelectTrigger>
+                                    <SelectContent>
+                                        <SelectItem value="all">All Categories</SelectItem>
+                                        {uniqueCategories.map(cat => <SelectItem key={cat} value={cat}>{cat}</SelectItem>)}
+                                    </SelectContent>
+                                </Select>
+                            </div>
+                            <div>
+                                <Label>Price</Label>
+                                <Select value={price} onValueChange={setPrice}>
+                                    <SelectTrigger><SelectValue placeholder="All Prices" /></SelectTrigger>
+                                    <SelectContent>
+                                        <SelectItem value="all">All Prices</SelectItem>
+                                        <SelectItem value="free">Free</SelectItem>
+                                        <SelectItem value="paid">Paid</SelectItem>
+                                    </SelectContent>
+                                </Select>
+                            </div>
+                            <div>
+                                <Label>Audience</Label>
+                                <Select value={audience} onValueChange={setAudience}>
+                                    <SelectTrigger><SelectValue placeholder="All Audiences" /></SelectTrigger>
+                                    <SelectContent>
+                                        <SelectItem value="all">All Audiences</SelectItem>
+                                        <SelectItem value="Students">Students</SelectItem>
+                                        <SelectItem value="Professionals">Professionals</SelectItem>
+                                    </SelectContent>
+                                </Select>
+                            </div>
+                        </CardContent>
+                    </Card>
+                </aside>
+                
+                <div className="lg:col-span-3 space-y-6">
+                    <div className="relative">
                         <Search className="absolute left-3 top-1/2 -translate-y-1/2 h-5 w-5 text-muted-foreground" />
                         <Input
                             id="search"
@@ -48,86 +89,54 @@ export default function CoursesPage() {
                             placeholder="Search for courses..."
                             value={searchTerm}
                             onChange={(e) => setSearchTerm(e.target.value)}
-                            className="pl-10"
+                            className="pl-10 w-full"
                         />
                     </div>
-                </div>
-                <div>
-                    <Label>Category</Label>
-                    <Select value={category} onValueChange={setCategory}>
-                        <SelectTrigger><SelectValue placeholder="All Categories" /></SelectTrigger>
-                        <SelectContent>
-                            <SelectItem value="all">All Categories</SelectItem>
-                            {uniqueCategories.map(cat => <SelectItem key={cat} value={cat}>{cat}</SelectItem>)}
-                        </SelectContent>
-                    </Select>
-                </div>
-                <div>
-                    <Label>Price</Label>
-                    <Select value={price} onValueChange={setPrice}>
-                        <SelectTrigger><SelectValue placeholder="All Prices" /></SelectTrigger>
-                        <SelectContent>
-                            <SelectItem value="all">All Prices</SelectItem>
-                            <SelectItem value="free">Free</SelectItem>
-                            <SelectItem value="paid">Paid</SelectItem>
-                        </SelectContent>
-                    </Select>
-                </div>
-                <div>
-                    <Label>Audience</Label>
-                    <Select value={audience} onValueChange={setAudience}>
-                        <SelectTrigger><SelectValue placeholder="All Audiences" /></SelectTrigger>
-                        <SelectContent>
-                            <SelectItem value="all">All Audiences</SelectItem>
-                            <SelectItem value="Students">Students</SelectItem>
-                            <SelectItem value="Professionals">Professionals</SelectItem>
-                        </SelectContent>
-                    </Select>
-                </div>
-            </div>
 
-            <div className="grid gap-6 sm:grid-cols-1 md:grid-cols-2 lg:grid-cols-3">
-                {filteredCourses.length > 0 ? (
-                    filteredCourses.map((course) => (
-                        <Card key={course.id} className="flex flex-col overflow-hidden transition-transform duration-300 hover:scale-105 hover:shadow-xl">
-                            <CardHeader className="p-0 relative">
-                                <Link href={`/courses/${course.id}`}>
-                                    <Image
-                                        src={course.imageUrl}
-                                        alt={course.title}
-                                        width={600}
-                                        height={400}
-                                        className="w-full h-48 object-cover"
-                                        data-ai-hint={course.imageHint}
-                                    />
-                                </Link>
-                                 <Badge className="absolute top-3 right-3">{course.category}</Badge>
-                            </CardHeader>
-                            <CardContent className="flex-1 p-6">
-                                <CardTitle className="mb-2 leading-tight">
-                                     <Link href={`/courses/${course.id}`} className="hover:text-primary">{course.title}</Link>
-                                </CardTitle>
-                                <CardDescription>{course.description}</CardDescription>
-                                <div className="flex items-center mt-4 text-sm text-muted-foreground">
-                                    <Star className="w-4 h-4 mr-1.5 text-yellow-500 fill-yellow-500" />
-                                    <span>{course.rating}</span>
-                                    <span className="mx-2">|</span>
-                                    <span>{course.reviewsCount.toLocaleString()} reviews</span>
-                                </div>
-                            </CardContent>
-                            <CardFooter className="p-6 pt-0 flex justify-between items-center">
-                                <div className="text-2xl font-bold text-primary">
-                                    {course.price === 0 ? 'Free' : `$${course.price}`}
-                                </div>
-                                <Button asChild>
-                                    <Link href={`/courses/${course.id}`}>View Course</Link>
-                                </Button>
-                            </CardFooter>
-                        </Card>
-                    ))
-                ) : (
-                    <p className="md:col-span-4 text-center text-muted-foreground">No courses match your criteria.</p>
-                )}
+                    <div className="grid gap-6 sm:grid-cols-1 md:grid-cols-2">
+                        {filteredCourses.length > 0 ? (
+                            filteredCourses.map((course) => (
+                                <Card key={course.id} className="flex flex-col overflow-hidden transition-transform duration-300 hover:scale-105 hover:shadow-xl">
+                                    <CardHeader className="p-0 relative">
+                                        <Link href={`/courses/${course.id}`}>
+                                            <Image
+                                                src={course.imageUrl}
+                                                alt={course.title}
+                                                width={600}
+                                                height={400}
+                                                className="w-full h-48 object-cover"
+                                                data-ai-hint={course.imageHint}
+                                            />
+                                        </Link>
+                                         <Badge className="absolute top-3 right-3">{course.category}</Badge>
+                                    </CardHeader>
+                                    <CardContent className="flex-1 p-6">
+                                        <CardTitle className="mb-2 leading-tight">
+                                             <Link href={`/courses/${course.id}`} className="hover:text-primary">{course.title}</Link>
+                                        </CardTitle>
+                                        <CardDescription>{course.description}</CardDescription>
+                                        <div className="flex items-center mt-4 text-sm text-muted-foreground">
+                                            <Star className="w-4 h-4 mr-1.5 text-yellow-500 fill-yellow-500" />
+                                            <span>{course.rating}</span>
+                                            <span className="mx-2">|</span>
+                                            <span>{course.reviewsCount.toLocaleString()} reviews</span>
+                                        </div>
+                                    </CardContent>
+                                    <CardFooter className="p-6 pt-0 flex justify-between items-center">
+                                        <div className="text-2xl font-bold text-primary">
+                                            {course.price === 0 ? 'Free' : `$${course.price}`}
+                                        </div>
+                                        <Button asChild>
+                                            <Link href={`/courses/${course.id}`}>View Course</Link>
+                                        </Button>
+                                    </CardFooter>
+                                </Card>
+                            ))
+                        ) : (
+                            <p className="md:col-span-2 text-center text-muted-foreground">No courses match your criteria.</p>
+                        )}
+                    </div>
+                </div>
             </div>
         </div>
     );

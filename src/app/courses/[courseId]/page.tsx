@@ -1,5 +1,4 @@
 import { getCourseById } from "@/lib/mock-data";
-import { notFound } from "next/navigation";
 import Image from "next/image";
 import Link from "next/link";
 import { Check, ChevronRight, Star, User, Clock, BookOpen, BarChart } from "lucide-react";
@@ -12,9 +11,7 @@ export default function CourseLandingPage({ params }: { params: { courseId: stri
   const course = getCourseById(params.courseId);
 
   if (!course) {
-    notFound();
   }
-
   const totalLessons = course.modules.reduce((acc, module) => acc + module.lessons.length, 0);
   const totalDuration = course.modules.reduce((acc, module) => {
     return acc + module.lessons.reduce((lessonAcc, lesson) => {
@@ -26,8 +23,7 @@ export default function CourseLandingPage({ params }: { params: { courseId: stri
   const totalMinutes = Math.floor((totalDuration % 3600) / 60);
 
   return (
-    <div>
-      {/* Header section */}
+    <>
       <div className="bg-primary/5">
         <div className="container mx-auto px-4 py-12 sm:px-6 lg:px-8 grid grid-cols-1 lg:grid-cols-3 gap-8">
           <div className="lg:col-span-2">
@@ -128,6 +124,6 @@ export default function CourseLandingPage({ params }: { params: { courseId: stri
       <div className="lg:hidden fixed bottom-0 left-0 right-0 bg-card border-t p-2 z-10">
           <FloatingPurchaseCard course={course} isMobile={true} />
       </div>
-    </div>
+    </>
   );
 }
