@@ -1,4 +1,5 @@
 import Header from '@/components/layout/header';
+import AdminSidebar from './components/admin-sidebar';
 
 export default function AdminLayout({
   children,
@@ -10,7 +11,12 @@ export default function AdminLayout({
       <Header />
       <main className="flex-1">
         <div className="container mx-auto px-4 py-8 sm:px-6 lg:px-8">
-            {children}
+          <div className="grid gap-8 lg:grid-cols-[240px_1fr]">
+            <AdminSidebar />
+            <div>
+              {children}
+            </div>
+          </div>
         </div>
       </main>
     </div>
