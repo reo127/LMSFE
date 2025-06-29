@@ -15,7 +15,7 @@ import {
   DropdownMenuTrigger,
 } from "@/components/ui/dropdown-menu";
 import { Button } from "@/components/ui/button";
-import { BookOpen, Home, LogOut, User } from "lucide-react";
+import { BookOpen, Home, LogOut, User, Search } from "lucide-react";
 
 export default function Header() {
   return (
@@ -29,6 +29,9 @@ export default function Header() {
           <nav className="hidden items-center space-x-1 md:flex">
             <Button variant="ghost" asChild>
               <Link href="/dashboard">Dashboard</Link>
+            </Button>
+            <Button variant="ghost" asChild>
+              <Link href="/courses">Courses</Link>
             </Button>
           </nav>
           <DropdownMenu>
@@ -52,6 +55,9 @@ export default function Header() {
               <DropdownMenuSeparator />
               <DropdownMenuItem asChild>
                 <Link href="/dashboard"><Home className="mr-2 h-4 w-4" /><span>Dashboard</span></Link>
+              </DropdownMenuItem>
+               <DropdownMenuItem asChild>
+                <Link href="/courses"><Search className="mr-2 h-4 w-4" /><span>Browse Courses</span></Link>
               </DropdownMenuItem>
               <DropdownMenuItem asChild>
                 <Link href="#"><User className="mr-2 h-4 w-4" /><span>Profile</span></Link>

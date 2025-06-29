@@ -36,7 +36,7 @@ export default function Dashboard() {
                 <Progress value={course.progress} aria-label={`${course.progress}% complete`} />
               </div>
               <Button asChild className="w-full">
-                <Link href={`/courses/${course.id}`}>
+                <Link href={`/learn/${course.id}`}>
                   <PlayCircle className="mr-2 h-4 w-4" />
                   Continue Learning
                 </Link>
