@@ -15,7 +15,7 @@ import {
   DropdownMenuTrigger,
 } from "@/components/ui/dropdown-menu";
 import { Button } from "@/components/ui/button";
-import { BookOpen, Home, LogOut, User, Search } from "lucide-react";
+import { BookOpen, Home, LogOut, User, Search, PlusCircle } from "lucide-react";
 
 export default function Header() {
   return (
@@ -61,6 +61,11 @@ export default function Header() {
               </DropdownMenuItem>
               <DropdownMenuItem asChild>
                 <Link href="#"><User className="mr-2 h-4 w-4" /><span>Profile</span></Link>
+              </DropdownMenuItem>
+              <DropdownMenuSeparator />
+              <DropdownMenuLabel>Admin</DropdownMenuLabel>
+              <DropdownMenuItem asChild>
+                <Link href="/admin/add-course"><PlusCircle className="mr-2 h-4 w-4" /><span>Add Course</span></Link>
               </DropdownMenuItem>
               <DropdownMenuSeparator />
               <DropdownMenuItem asChild>
