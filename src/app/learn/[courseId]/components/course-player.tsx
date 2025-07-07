@@ -11,6 +11,7 @@ import NotesTab from './notes-tab';
 import {
   AlertDialog,
   AlertDialogAction,
+ AlertDialogTrigger,
   AlertDialogCancel,
   AlertDialogContent,
   AlertDialogFooter,
