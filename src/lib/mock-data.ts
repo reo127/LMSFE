@@ -2,6 +2,7 @@ export interface Lesson {
   id: string;
   title: string;
   duration: string;
+  videoId: string;
 }
 
 export interface Module {

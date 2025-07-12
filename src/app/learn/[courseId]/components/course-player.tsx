@@ -1,7 +1,8 @@
 "use client";
 
-import { useState } from 'react';
+import { useState, useEffect } from 'react';
 import type { Course, Lesson } from "@/lib/mock-data";
+import ReactPlayer from 'react-player';
 import { Accordion, AccordionContent, AccordionItem, AccordionTrigger } from "@/components/ui/accordion";
 import { Button } from "@/components/ui/button";
 import { Card, CardContent } from "@/components/ui/card";
@@ -22,10 +23,25 @@ import CertificateView from './certificate-view';
 import DoubtsTab from './doubts-tab';
 import FeedbackTab from './feedback-tab';
 import AssignmentTab from './assignment-tab';
+import { fetchYoutubePlaylist } from '@/lib/helper';
 
 export default function CoursePlayer({ course }: { course: Course }) {
-  const [activeLesson, setActiveLesson] = useState<Lesson | null>(course.modules[0].lessons[0]);
+  const [activeLesson, setActiveLesson] = useState<Lesson | null>(null);
   const [isCompleted, setIsCompleted] = useState(false);
+  const [playlist, setPlaylist] = useState<Lesson[]>([]);
+
+  useEffect(() => {
+    fetchYoutubePlaylist("PLu71SKxNbfoDqgPchmvIsL4hTnJIrtige").then((data) => {
+      setPlaylist(data);
+      if (data.length > 0) {
+        setActiveLesson(data[0]);
+      }
+    }).catch((error) => {
+      console.error("Error fetching playlist:", error);
+    });
+  }, []);
+
+  console.log("active lession: ",activeLesson);
 
   return (
     <div className="mx-auto max-w-7xl">
@@ -34,11 +50,31 @@ export default function CoursePlayer({ course }: { course: Course }) {
           {/* Video Player */}
           <Card className="overflow-hidden shadow-lg">
             <div className="aspect-video bg-muted flex items-center justify-center">
-              <p className="text-muted-foreground">Video Player for "{activeLesson?.title}"</p>
+              {activeLesson?.videoId ? (
+                <ReactPlayer
+                  src={`https://www.youtube.com/watch?v=${activeLesson.videoId}`}
+                  controls={true}
+                  width="100%"
+                  height="100%"
+                  playing={false}
+                  config={{
+                    youtube: {
+                      playerVars: {
+                        showinfo: 1,
+                        origin: window.location.origin
+                      }
+                    } as any
+                  }}
+                />
+              ) : (
+                <div className="flex items-center justify-center h-full">
+                  <p className="text-muted-foreground">Loading playlist...</p>
+                </div>
+              )}
             </div>
           </Card>
 
-          {/* Tabbed Content */}
+          {/* Rest of the tabs section */}
           <Tabs defaultValue="overview" className="mt-6">
             <TabsList className="grid w-full grid-cols-3 sm:grid-cols-6">
               <TabsTrigger value="overview">Overview</TabsTrigger>
@@ -88,37 +124,31 @@ export default function CoursePlayer({ course }: { course: Course }) {
           <Card>
             <CardContent className="p-4">
               <h2 className="text-2xl font-bold mb-4">{course.title}</h2>
-              <Accordion type="single" collapsible defaultValue={course.modules[0].id} className="w-full">
-                {course.modules.map((module) => (
-                  <AccordionItem value={module.id} key={module.id}>
-                    <AccordionTrigger className="text-base font-semibold">{module.title}</AccordionTrigger>
-                    <AccordionContent>
-                      <ul className="space-y-1">
-                        {module.lessons.map((lesson) => (
-                          <li key={lesson.id}>
-                            <Button
-                              variant="ghost"
-                              className={`w-full justify-start h-auto py-2 px-3 text-left ${activeLesson?.id === lesson.id ? 'bg-primary/10 text-primary' : ''}`}
-                              onClick={() => setActiveLesson(lesson)}
-                            >
-                              {activeLesson?.id === lesson.id ? (
-                                <CheckCircle2 className="w-4 h-4 mr-3 text-primary" />
-                              ) : (
-                                <Circle className="w-4 h-4 mr-3 text-muted-foreground" />
-                              )}
-                              <span className="flex-1">{lesson.title}</span>
-                              <span className="text-xs text-muted-foreground">{lesson.duration}</span>
-                            </Button>
-                          </li>
-                        ))}
-                      </ul>
-                    </AccordionContent>
-                  </AccordionItem>
-                ))}
-              </Accordion>
+              <div className="w-full">
+                <h3 className="text-lg font-semibold mb-2">Playlist Videos</h3>
+                <ul className="space-y-1">
+                  {playlist.map((lesson) => (
+                    <li key={lesson.id}>
+                      <Button
+                        variant="ghost"
+                        className={`w-full justify-start h-auto py-2 px-3 text-left ${activeLesson?.id === lesson.id ? 'bg-primary/10 text-primary' : ''}`}
+                        onClick={() => setActiveLesson(lesson)}
+                      >
+                        {activeLesson?.id === lesson.id ? (
+                          <CheckCircle2 className="w-4 h-4 mr-3 text-primary" />
+                        ) : (
+                          <Circle className="w-4 h-4 mr-3 text-muted-foreground" />
+                        )}
+                        <span className="flex-1 whitespace-normal">{lesson.title}</span>
+                      </Button>
+                    </li>
+                  ))}
+                </ul>
+              </div>
             </CardContent>
           </Card>
           
+          {/* Completion card */}
           <Card>
             <CardContent className="p-4 space-y-4">
                 <h3 className="font-semibold">Course Completion</h3>
