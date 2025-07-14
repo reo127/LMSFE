@@ -35,7 +35,6 @@ const handler = NextAuth({
           const user = await res.json();
 
           if (user) {
-            console.log("Authorize success (user object):", user);
             return user;
           } else {
             console.log("Authorize failed: No user object returned from API");
@@ -53,16 +52,20 @@ const handler = NextAuth({
   },
   callbacks: {
     async jwt({ token, user }) {
-      if (user && user.token) {
-        // Decode the JWT from your backend to get the user ID
-        const decodedToken = JSON.parse(Buffer.from(user.token.split('.')[1], 'base64').toString());
-        token.id = decodedToken.id;
+      if (user) {
+        token.id = user.id;
+        token.role = user.role;
+        token.email = user.email;
+        token.username = user.username;
       }
       return token;
     },
     async session({ session, token }) {
-      if (token.id) {
-        session.user.id = token.id;
+      if (session.user) {
+        session.user.id = token.id as string;
+        session.user.role = token.role as string;
+        session.user.email = token.email as string;
+        session.user.username = token.username as string;
       }
       return session;
     },

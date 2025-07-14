@@ -16,9 +16,13 @@ import {
 } from "@/components/ui/dropdown-menu";
 import { Button } from "@/components/ui/button";
 import { BookOpen, Home, LogOut, User, Search, PlusCircle } from "lucide-react";
-import { signOut } from "next-auth/react";
+import { signOut, useSession } from "next-auth/react";
 
 export default function Header() {
+  const { data: session } = useSession();
+
+  console.log(session?.user);
+
   return (
     <header className="sticky top-0 z-50 w-full border-b bg-card/80 backdrop-blur-md">
       <div className="container flex h-16 items-center px-4 sm:px-6">
@@ -47,9 +51,9 @@ export default function Header() {
             <DropdownMenuContent className="w-56" align="end" forceMount>
               <DropdownMenuLabel className="font-normal">
                 <div className="flex flex-col space-y-1">
-                  <p className="text-sm font-medium leading-none">Alex Doe</p>
+                  <p className="text-sm font-medium leading-none">{session?.user?.username}</p>
                   <p className="text-xs leading-none text-muted-foreground">
-                    alex@example.com
+                   {session?.user?.email}
                   </p>
                 </div>
               </DropdownMenuLabel>
