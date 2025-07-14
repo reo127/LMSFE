@@ -16,6 +16,7 @@ import {
 } from "@/components/ui/dropdown-menu";
 import { Button } from "@/components/ui/button";
 import { BookOpen, Home, LogOut, User, Search, PlusCircle } from "lucide-react";
+import { signOut } from "next-auth/react";
 
 export default function Header() {
   return (
@@ -68,9 +69,7 @@ export default function Header() {
                 <Link href="/admin/add-course"><PlusCircle className="mr-2 h-4 w-4" /><span>Add Course</span></Link>
               </DropdownMenuItem>
               <DropdownMenuSeparator />
-              <DropdownMenuItem asChild>
-                <Link href="/"><LogOut className="mr-2 h-4 w-4" /><span>Log out</span></Link>
-              </DropdownMenuItem>
+              <DropdownMenuItem onClick={() => signOut({ callbackUrl: '/' })}><LogOut className="mr-2 h-4 w-4" /><span>Log out</span></DropdownMenuItem>
             </DropdownMenuContent>
           </DropdownMenu>
         </div>
