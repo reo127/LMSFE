@@ -5,6 +5,7 @@ import 'next-auth/jwt';
 declare module 'next-auth' {
   interface Session {
     user: {
+      token: string;
       id: string;
       role: string;
       username: string;

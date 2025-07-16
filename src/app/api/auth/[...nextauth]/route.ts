@@ -57,6 +57,7 @@ const handler = NextAuth({
         token.role = user.role;
         token.email = user.email;
         token.username = user.username;
+        token.token = user.token;
       }
       return token;
     },
@@ -66,6 +67,7 @@ const handler = NextAuth({
         session.user.role = token.role as string;
         session.user.email = token.email as string;
         session.user.username = token.username as string;
+        session.user.token = token.token as string;
       }
       return session;
     },
