@@ -74,27 +74,27 @@ export const courses: Course[] = [
         id: 'module-1',
         title: 'Introduction to Next.js',
         lessons: [
-          { id: 'l1-1', title: 'What is Next.js?', duration: '8:42' },
-          { id: 'l1-2', title: 'Setting up your environment', duration: '12:15' },
-          { id: 'l1-3', title: 'Pages and Routing', duration: '15:30' },
+          { id: 'l1-1', title: 'What is Next.js?', duration: '8:42', videoId: '1' },
+          { id: 'l1-2', title: 'Setting up your environment', duration: '12:15', videoId: '2' },
+          { id: 'l1-3', title: 'Pages and Routing', duration: '15:30', videoId: '3' },
         ],
       },
       {
         id: 'module-2',
         title: 'Styling and Components',
         lessons: [
-          { id: 'l2-1', title: 'CSS Modules', duration: '10:05' },
-          { id: 'l2-2', title: 'Using Tailwind CSS', duration: '14:20' },
-          { id: 'l2-3', title: 'Building Reusable Components', duration: '18:55' },
+          { id: 'l2-1', title: 'CSS Modules', duration: '10:05', videoId: '4' },
+          { id: 'l2-2', title: 'Using Tailwind CSS', duration: '14:20', videoId: '5' },
+          { id: 'l2-3', title: 'Building Reusable Components', duration: '18:55', videoId: '6' },
         ],
       },
       {
         id: 'module-3',
         title: 'Data Fetching',
         lessons: [
-          { id: 'l3-1', title: 'Server Components vs. Client Components', duration: '20:10' },
-          { id: 'l3-2', title: 'Fetching data with fetch()', duration: '11:45' },
-          { id: 'l3-3', title: 'Server Actions', duration: '16:00' },
+          { id: 'l3-1', title: 'Server Components vs. Client Components', duration: '20:10', videoId: '7' },
+          { id: 'l3-2', title: 'Fetching data with fetch()', duration: '11:45', videoId: '8' },
+          { id: 'l3-3', title: 'Server Actions', duration: '16:00', videoId: '9' },
         ],
       },
     ],
@@ -148,17 +148,17 @@ export const courses: Course[] = [
         id: 'module-1',
         title: 'Advanced Hooks',
         lessons: [
-          { id: 'l1-1', title: 'useMemo and useCallback', duration: '15:00' },
-          { id: 'l1-2', title: 'Custom Hooks', duration: '18:30' },
-          { id: 'l1-3', title: 'useTransition and useDeferredValue', duration: '22:10' },
+          { id: 'l1-1', title: 'useMemo and useCallback', duration: '15:00', videoId: '10' },
+          { id: 'l1-2', title: 'Custom Hooks', duration: '18:30', videoId: '11' },
+          { id: 'l1-3', title: 'useTransition and useDeferredValue', duration: '22:10', videoId: '12' },
         ],
       },
       {
         id: 'module-2',
         title: 'State Management',
         lessons: [
-          { id: 'l2-1', title: 'Context API at Scale', duration: '17:45' },
-          { id: 'l2-2', title: 'Introduction to Zustand', duration: '13:20' },
+          { id: 'l2-1', title: 'Context API at Scale', duration: '17:45', videoId: '13' },
+          { id: 'l2-2', title: 'Introduction to Zustand', duration: '13:20', videoId: '14' },
         ],
       },
     ],
@@ -205,17 +205,17 @@ export const courses: Course[] = [
         id: 'module-1',
         title: 'TypeScript Basics',
         lessons: [
-          { id: 'l1-1', title: 'Introduction to Static Typing', duration: '10:00' },
-          { id: 'l1-2', title: 'Basic Types', duration: '14:30' },
-          { id: 'l1-3', title: 'Interfaces and Classes', duration: '20:10' },
+          { id: 'l1-1', title: 'Introduction to Static Typing', duration: '10:00', videoId: '15' },
+          { id: 'l1-2', title: 'Basic Types', duration: '14:30', videoId: '16' },
+          { id: 'l1-3', title: 'Interfaces and Classes', duration: '20:10', videoId: '17' },
         ],
       },
       {
         id: 'module-2',
         title: 'Advanced Topics',
         lessons: [
-          { id: 'l2-1', title: 'Generics', duration: '19:00' },
-          { id: 'l2-2', title: 'Decorators', duration: '16:45' },
+          { id: 'l2-1', title: 'Generics', duration: '19:00', videoId: '18' },
+          { id: 'l2-2', title: 'Decorators', duration: '16:45', videoId: '19' },
         ],
       },
     ],
@@ -224,7 +224,7 @@ export const courses: Course[] = [
       { name: 'Project Starter Files', url: '#' },
     ],
     assignments: [],
-  },
+  }
 ];
 
 export function getCourseById(id: string): Course | undefined {

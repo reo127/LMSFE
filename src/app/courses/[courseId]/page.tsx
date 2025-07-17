@@ -11,6 +11,7 @@ export default function CourseLandingPage({ params }: { params: { courseId: stri
   const course = getCourseById(params.courseId);
 
   if (!course) {
+    return <div>Course not found</div>;
   }
   const totalLessons = course.modules.reduce((acc, module) => acc + module.lessons.length, 0);
   const totalDuration = course.modules.reduce((acc, module) => {
