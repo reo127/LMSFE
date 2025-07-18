@@ -3,13 +3,12 @@
 import Image from "next/image";
 import { Button } from "@/components/ui/button";
 import { Card, CardContent, CardHeader } from "@/components/ui/card";
-import type { Course } from "@/lib/mock-data";
 import { Badge } from "@/components/ui/badge";
 import Link from "next/link";
 import { Check } from "lucide-react";
 
 interface FloatingPurchaseCardProps {
-  course: Course;
+  course: any;
   isMobile?: boolean;
 }
 
@@ -19,7 +18,7 @@ export default function FloatingPurchaseCard({ course, isMobile = false }: Float
     return (
        <div className="flex justify-between items-center w-full gap-4">
             <div className="text-2xl font-bold text-primary">
-                {course.price === 0 ? 'Free' : `$${course.price}`}
+                {course.price === 0 ? 'Free' : `${course.price}`}
             </div>
             <Button className="flex-grow" asChild>
                 <Link href={`/learn/${course.id}`}>Enroll Now</Link>
@@ -32,20 +31,18 @@ export default function FloatingPurchaseCard({ course, isMobile = false }: Float
     <Card className="sticky top-24 shadow-lg">
       <CardHeader className="p-0">
         <Image
-          src={course.imageUrl}
+          src={course.thumbnail?.startsWith('http') ? course.thumbnail : course.thumbnail ? `http://localhost:8000/uploads/thumbnails/${course.thumbnail}` : 'https://placehold.co/600x400.png'}
           alt={course.title}
           width={600}
           height={400}
           className="w-full h-auto object-cover rounded-t-lg"
-          data-ai-hint={course.imageHint}
         />
       </CardHeader>
       <CardContent className="p-6 space-y-4">
         <div className="flex items-baseline gap-2">
             <span className="text-3xl font-bold text-primary">
-                {course.price === 0 ? 'Free' : `$${course.price}`}
+                {course.price === 0 ? 'Free' : `${course.price}`}
             </span>
-            {course.price > 0 && <span className="text-lg text-muted-foreground line-through">${(course.price * 1.5).toFixed(2)}</span>}
         </div>
         
         <Button size="lg" className="w-full" asChild>

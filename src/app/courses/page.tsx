@@ -1,9 +1,8 @@
 "use client";
 
-import { useState, useMemo } from 'react';
+import { useState, useMemo, useEffect } from 'react';
 import Link from 'next/link';
 import Image from 'next/image';
-import { courses, type Course } from '@/lib/mock-data';
 import { Card, CardContent, CardDescription, CardFooter, CardHeader, CardTitle } from '@/components/ui/card';
 import { Button } from '@/components/ui/button';
 import { Input } from '@/components/ui/input';
@@ -12,23 +11,37 @@ import { Badge } from '@/components/ui/badge';
 import { Search, Star } from 'lucide-react';
 import { Label } from '@/components/ui/label';
 
-const uniqueCategories = Array.from(new Set(courses.map(course => course.category)));
-
 export default function CoursesPage() {
+    const [courses, setCourses] = useState([]);
     const [searchTerm, setSearchTerm] = useState('');
     const [category, setCategory] = useState('all');
     const [price, setPrice] = useState('all');
-    const [audience, setAudience] = useState('all');
+    const [level, setLevel] = useState('all');
+
+    useEffect(() => {
+        const fetchCourses = async () => {
+            const res = await fetch('http://localhost:8000/api/youtube-courses/get-courses');
+            const data = await res.json();
+            if (data.success) {
+                setCourses(data.data);
+            }
+        };
+        fetchCourses();
+    }, []);
+
+    const uniqueCategories = useMemo(() => Array.from(new Set(courses.map((course: any) => course.category))), [courses]);
+    const uniqueLevels = useMemo(() => Array.from(new Set(courses.map((course: any) => course.level))), [courses]);
+
 
     const filteredCourses = useMemo(() => {
-        return courses.filter(course => {
+        return courses.filter((course: any) => {
             const matchesSearch = course.title.toLowerCase().includes(searchTerm.toLowerCase()) || course.description.toLowerCase().includes(searchTerm.toLowerCase());
             const matchesCategory = category === 'all' || course.category === category;
             const matchesPrice = price === 'all' || (price === 'free' && course.price === 0) || (price === 'paid' && course.price > 0);
-            const matchesAudience = audience === 'all' || course.targetAudience === audience;
-            return matchesSearch && matchesCategory && matchesPrice && matchesAudience;
+            const matchesLevel = level === 'all' || course.level === level;
+            return matchesSearch && matchesCategory && matchesPrice && matchesLevel;
         });
-    }, [searchTerm, category, price, audience]);
+    }, [courses, searchTerm, category, price, level]);
 
     return (
         <div className="space-y-8">
@@ -66,13 +79,12 @@ export default function CoursesPage() {
                                 </Select>
                             </div>
                             <div>
-                                <Label>Audience</Label>
-                                <Select value={audience} onValueChange={setAudience}>
-                                    <SelectTrigger><SelectValue placeholder="All Audiences" /></SelectTrigger>
+                                <Label>Level</Label>
+                                <Select value={level} onValueChange={setLevel}>
+                                    <SelectTrigger><SelectValue placeholder="All Levels" /></SelectTrigger>
                                     <SelectContent>
-                                        <SelectItem value="all">All Audiences</SelectItem>
-                                        <SelectItem value="Students">Students</SelectItem>
-                                        <SelectItem value="Professionals">Professionals</SelectItem>
+                                        <SelectItem value="all">All Levels</SelectItem>
+                                        {uniqueLevels.map(lvl => <SelectItem key={lvl} value={lvl}>{lvl}</SelectItem>)}
                                     </SelectContent>
                                 </Select>
                             </div>
@@ -95,17 +107,16 @@ export default function CoursesPage() {
 
                     <div className="grid gap-6 sm:grid-cols-1 md:grid-cols-2">
                         {filteredCourses.length > 0 ? (
-                            filteredCourses.map((course) => (
-                                <Card key={course.id} className="flex flex-col overflow-hidden transition-transform duration-300 hover:scale-105 hover:shadow-xl">
+                            filteredCourses.map((course: any) => (
+                                <Card key={course._id} className="flex flex-col overflow-hidden transition-transform duration-300 hover:scale-105 hover:shadow-xl">
                                     <CardHeader className="p-0 relative">
-                                        <Link href={`/courses/${course.id}`}>
+                                        <Link href={`/courses/${course._id}`}>
                                             <Image
-                                                src={course.imageUrl}
+                                                src={course.thumbnail ? course.thumbnail : 'https://placehold.co/600x400.png'}
                                                 alt={course.title}
                                                 width={600}
                                                 height={400}
                                                 className="w-full h-48 object-cover"
-                                                data-ai-hint={course.imageHint}
                                             />
                                         </Link>
                                          <Badge className="absolute top-3 right-3">{course.category}</Badge>
@@ -115,24 +126,18 @@ export default function CoursesPage() {
                                              <Link href={`/courses/${course.id}`} className="hover:text-primary">{course.title}</Link>
                                         </CardTitle>
                                         <CardDescription>{course.description}</CardDescription>
-                                        <div className="flex items-center mt-4 text-sm text-muted-foreground">
-                                            <Star className="w-4 h-4 mr-1.5 text-yellow-500 fill-yellow-500" />
-                                            <span>{course.rating}</span>
-                                            <span className="mx-2">|</span>
-                                            <span>{course.reviewsCount.toLocaleString()} reviews</span>
-                                        </div>
                                     </CardContent>
                                     <CardFooter className="p-6 pt-0 flex justify-between items-center">
                                         <div className="text-2xl font-bold text-primary">
-                                            {course.price === 0 ? 'Free' : `$${course.price}`}
+                                            {course.price === 0 ? 'Free' : `${course.price}`}
                                         </div>
                                         <Button asChild>
-                                            <Link href={`/courses/${course.id}`}>View Course</Link>
+                                            <Link href={`/courses/${course._id}`}>View Course</Link>
                                         </Button>
                                     </CardFooter>
                                 </Card>
                             ))
-                        ) : (
+                        ).reverse() : (
                             <p className="md:col-span-2 text-center text-muted-foreground">No courses match your criteria.</p>
                         )}
                     </div>
